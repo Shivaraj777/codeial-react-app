@@ -3,11 +3,13 @@ import styles from '../styles/home.module.css';
 import UserPicture from '../images/man.png';
 import Like from '../images/heart.png';
 import Comment from '../images/chat-bubble.png';
+import PropTypes from 'prop-types';
 
-function Home() {
+function Home({posts}) {
   return (
     <div className={styles.postsList}>
-      <div className={styles.postWrapper}>
+      {posts.map((post) => (
+        <div className={styles.postWrapper} key={`post-${post._id}`}>
         <div className={styles.postHeader}>
           <div className={styles.postAvatar}>
             <img
@@ -15,11 +17,11 @@ function Home() {
               alt="user-pic"
             />
             <div>
-              <span className={styles.postAuthor}>Shivaraj</span>
+              <span className={styles.postAuthor}>{post.user.name}</span>
               <span className={styles.postTime}>a minute ago</span>
             </div>
           </div>
-          <div className={styles.postContent}>Post Content</div>
+          <div className={styles.postContent}>{post.content}</div>
 
           <div className={styles.postActions}>
             <div className={styles.postLike}>
@@ -27,7 +29,7 @@ function Home() {
                 src={Like}
                 alt="likes-icon"
               />
-              <span>5</span>
+              <span>{post.likes.length}</span>
             </div>
 
             <div className={styles.postCommentsIcon}>
@@ -35,7 +37,7 @@ function Home() {
                 src={Comment}
                 alt="comments-icon"
               />
-              <span>2</span>
+              <span>{post.comments.length}</span>
             </div>
           </div>
           <div className={styles.postCommentBox}>
@@ -55,8 +57,14 @@ function Home() {
           </div>
         </div>
       </div>
+      ))}
     </div>
   );
+}
+
+//define the types of props that Home component can take as input
+Home.propTypes = {
+  posts: PropTypes.array.isRequired
 }
 
 export default Home;
