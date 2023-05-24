@@ -1,5 +1,6 @@
 import {getPosts} from '../api';
 import { useEffect } from 'react';
+import {Home} from '../pages';
 
 function App() {
   //fetch the posts from api
@@ -14,7 +15,7 @@ function App() {
 
   return (
     <div className="App">
-      Hello World
+      <Home />
     </div>
   );
 }

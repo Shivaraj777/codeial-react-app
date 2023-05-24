@@ -1,3 +1,5 @@
+// Entry point for APIs
+
 import {API_URLS, LOCALSTORAGE_TOKEN_KEY} from '../utils';
 
 //global fetch function to make api calls
