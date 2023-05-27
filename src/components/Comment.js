@@ -2,7 +2,7 @@ import React from 'react'
 import styles from '../styles/home.module.css';
 import PropTypes from 'prop-types';
 
-function Comments({comment}) {
+function Comment({comment}) {
   return (
     <>
       <div className={styles.postCommentsItem} key={`comment-${comment._id}`}>
@@ -23,4 +23,4 @@ Comment.propTypes = {
   comment: PropTypes.array.isRequired
 }
 
-export default Comments;
+export default Comment;

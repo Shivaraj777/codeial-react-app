@@ -1,6 +1,6 @@
 import App from './App';
 import Loader from './Loader';
-import Comments from './Comments';
+import Comment from './Comment';
 import Navbar from './Navbar';
 
-export {App, Loader, Comments, Navbar};
+export {App, Loader, Comment, Navbar};

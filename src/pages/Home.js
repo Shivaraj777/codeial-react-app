@@ -2,9 +2,9 @@ import React from 'react'
 import styles from '../styles/home.module.css';
 import UserPicture from '../images/man.png';
 import Like from '../images/heart.png';
-import Comment from '../images/chat-bubble.png';
+import CommentImg from '../images/chat-bubble.png';
 import PropTypes from 'prop-types';
-import {Comments} from '../components/';
+import {Comment} from '../components/';
 
 function Home({posts}) {
   return (
@@ -34,7 +34,7 @@ function Home({posts}) {
 
               <div className={styles.postCommentsIcon}>
                 <img
-                  src={Comment}
+                  src={CommentImg}
                   alt="comments-icon"
                 />
                 <span>{post.comments.length}</span>
@@ -47,7 +47,7 @@ function Home({posts}) {
             {/* Display the comments of posts */}
             <div className={styles.postCommentsList}>
               {post.comments.map((comment) => (
-                <Comments comment={comment} />
+                <Comment comment={comment} />
               ))}
             </div>
           </div>

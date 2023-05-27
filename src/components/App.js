@@ -1,7 +1,8 @@
 import {getPosts} from '../api';
 import { useState, useEffect } from 'react';
-import {Home} from '../pages';
+import {Home, Login} from '../pages';
 import {Loader, Navbar} from './';
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
   //define the state for posts and loader
@@ -32,7 +33,10 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Home posts={posts} />
+      <Routes>
+        <Route exact path="/" element={<Home posts={posts} />} />
+        <Route exact path='/login' element={<Login />}/>
+      </Routes>
     </div>
   );
 }
