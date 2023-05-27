@@ -1,7 +1,7 @@
 import {getPosts} from '../api';
 import { useState, useEffect } from 'react';
 import {Home} from '../pages';
-import {Loader} from './';
+import {Loader, Navbar} from './';
 
 function App() {
   //define the state for posts and loader
@@ -31,6 +31,7 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar />
       <Home posts={posts} />
     </div>
   );
