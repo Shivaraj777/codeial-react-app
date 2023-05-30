@@ -1,15 +1,16 @@
 import React from 'react'
 import styles from '../styles/navbar.module.css';
 import UserPicture from '../images/man.png';
+import {Link} from 'react-router-dom';
 
 function Navbar() {
   return (
     <div className={styles.nav}>
       {/* left section of Navbar */}
       <div className={styles.leftNav}>
-        <a href='/'>
+        <Link to='/'>
           <img alt='app-logo' src='https://ninjasfiles.s3.amazonaws.com/0000000000003454.png' />
-        </a>
+        </Link>
       </div>
       {/* right section of nav bar */}
       <div className={styles.rightNav}>
@@ -22,13 +23,13 @@ function Navbar() {
         <div className={styles.navLinks}>
           <ul>
             <li>
-              <a href='/'>Login</a>
+              <Link to='/login'>Login</Link>
             </li>
             <li>
-              <a href='/'>Logout</a>
+              <Link to='/'>Logout</Link>
             </li>
             <li>
-              <a href='/'>Register</a>
+              <Link to='/'>Register</Link>
             </li>
           </ul>
         </div>
