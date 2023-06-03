@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import {login as userLogin} from '../api/';
+import { removeItemsFromLocalStorage, setItemsInLocalStorage, LOCALSTORAGE_TOKEN_KEY } from "../utils";
 
 // custom hook which will use useContext hook and return the global state(reason to use this custom hook: so that we don't have to useContext hook in every component)
 export const useAuth = () => {
@@ -17,7 +18,10 @@ export const useProvideAuth = () => {
     const response = await userLogin(email, password);
 
     if(response.success){
+      //set the user if user exists
       setUser(response.data.user);
+      //store the token in local storage
+      setItemsInLocalStorage(LOCALSTORAGE_TOKEN_KEY, response.data.token ? response.data.token : null);
       return {
         success: true
       }
@@ -31,6 +35,7 @@ export const useProvideAuth = () => {
 
   const logout = () => {
     setUser(null);
+    removeItemsFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
   };
 
   //return the global state
