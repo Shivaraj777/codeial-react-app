@@ -1,7 +1,8 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import {login as userLogin} from '../api/';
-import { removeItemsFromLocalStorage, setItemsInLocalStorage, LOCALSTORAGE_TOKEN_KEY } from "../utils";
+import { removeItemsFromLocalStorage, setItemsInLocalStorage, getItemsFromLocalStorage, LOCALSTORAGE_TOKEN_KEY } from "../utils";
+import jwt from 'jwt-decode';
 
 // custom hook which will use useContext hook and return the global state(reason to use this custom hook: so that we don't have to useContext hook in every component)
 export const useAuth = () => {
@@ -12,6 +13,18 @@ export const useAuth = () => {
 export const useProvideAuth = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  //decode the token and update the user state
+  useEffect(() => {
+    const userToken = getItemsFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+    
+    if(userToken){
+      const user = jwt(userToken);
+      setUser(user);
+    }
+
+    setLoading(false);
+  },[]);
 
   const login = async (email, password) => {
     //get the response from api

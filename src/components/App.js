@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import {Home, Login} from '../pages';
 import {Loader, Navbar} from './';
 import { Routes, Route } from 'react-router-dom';
+import { useAuth } from '../hooks';
 
 function App() {
   //define the state for posts and loader
   const [posts, setPosts] = useState([]);
   const [loader, setLoader] = useState(true);
+  // const auth = useAuth();
 
   //fetch the posts from api
   useEffect(() => {

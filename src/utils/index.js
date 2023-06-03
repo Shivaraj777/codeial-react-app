@@ -33,7 +33,7 @@ export const getItemsFromLocalStorage = (key) => {
     return console.error('Cannot find item in local storage');
   }
 
-  localStorage.getItem(key);  //get the value from local storage
+  return localStorage.getItem(key);  //get the value from local storage
 }
 
 //function to remove item from local storage
