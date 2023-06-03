@@ -1,6 +1,7 @@
 // Entry point for APIs
 
 import {API_URLS, LOCALSTORAGE_TOKEN_KEY} from '../utils';
+import { getFormBody } from '../utils';
 
 //global fetch function to make api calls
 const customFetch = async (url, {body, ...customConfig}) => {
@@ -9,7 +10,7 @@ const customFetch = async (url, {body, ...customConfig}) => {
 
   //define the data to be sent and accepted in application
   const headers = {
-    'content-type': 'application/json',  //application/json
+    'content-type': 'application/x-www-form-urlencoded',  //application/json
     Accept: 'application/json'
   };
 
@@ -29,7 +30,7 @@ const customFetch = async (url, {body, ...customConfig}) => {
 
   //if config data(JS object) is present in body, add it to config
   if(body){
-    config.body = JSON.stringify(body);
+    config.body = getFormBody(body);
   }
 
   try{

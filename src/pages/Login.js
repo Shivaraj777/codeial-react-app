@@ -52,6 +52,7 @@ function Login() {
       });
     }
 
+    //enable the login button
     setLoggingIn(false);
   }
 
