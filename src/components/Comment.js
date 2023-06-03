@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 
 function Comment({comment}) {
   return (
-    <>
-      <div className={styles.postCommentsItem} key={`comment-${comment._id}`}>
+      <div className={styles.postCommentsItem}>
         <div className={styles.postCommentHeader}>
           <span className={styles.postCommentAuthor}>{comment.user.name}</span>
           <span className={styles.postCommentTime}>a minute ago</span>
@@ -14,13 +13,12 @@ function Comment({comment}) {
 
         <div className={styles.postCommentContent}>{comment.content}</div>
       </div>
-    </>
   );
 }
 
 // define the types of props that Comment component can take as input
 Comment.propTypes = {
-  comment: PropTypes.array.isRequired
+  comment: PropTypes.object.isRequired
 }
 
 export default Comment;

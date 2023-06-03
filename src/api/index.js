@@ -11,7 +11,7 @@ const customFetch = async (url, {body, ...customConfig}) => {
   //define the data to be sent and accepted in application
   const headers = {
     'content-type': 'application/x-www-form-urlencoded',  //application/json
-    Accept: 'application/json'
+    // Accept: 'application/json'
   };
 
   //if the token exists in local storage, add it to Authorization header

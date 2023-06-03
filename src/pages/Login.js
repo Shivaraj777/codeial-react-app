@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../styles/login.module.css';
 import { useToasts } from 'react-toast-notifications';
-import {login} from '../api/';
+import {useAuth} from '../hooks/';
 
 function Login() {
   //custom hook to take form input and set state
@@ -23,6 +23,8 @@ function Login() {
   const password = useFormInput('');
   const [loggingIn, setLoggingIn] = useState(false);
   const {addToast} = useToasts();  //hook for setting up notifications
+  const auth = useAuth(); //get the authentication state from useAuth hook
+  console.log(auth);
 
   //function to submit login details from form
   const handleSubmit = async (e) => {
@@ -39,7 +41,7 @@ function Login() {
     }
 
     //get the response from login API
-    const response = await login(email.value, password.value);
+    const response = await auth.login(email.value, password.value);
 
     //if data is fetched successfully
     if(response.success){
