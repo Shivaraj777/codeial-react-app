@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import {login as userLogin} from '../api/';
+import {signup as userSignup} from '../api/';
 import { removeItemsFromLocalStorage, setItemsInLocalStorage, getItemsFromLocalStorage, LOCALSTORAGE_TOKEN_KEY } from "../utils";
 import jwt from 'jwt-decode';
 
@@ -26,6 +27,7 @@ export const useProvideAuth = () => {
     setLoading(false);
   },[]);
 
+  //function for login
   const login = async (email, password) => {
     //get the response from api
     const response = await userLogin(email, password);
@@ -46,6 +48,23 @@ export const useProvideAuth = () => {
     }
   };
 
+  //function for sign up
+  const signup = async (newUser) => {
+    const response = await userSignup(newUser);
+
+    if (response.success) {
+      return {
+        success: true,
+      };
+    } else {
+      return {
+        success: false,
+        message: response.message,
+      };
+    }
+  };
+
+  //function for logout
   const logout = () => {
     setUser(null);
     removeItemsFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
@@ -56,6 +75,7 @@ export const useProvideAuth = () => {
     user,
     loading,
     login,
-    logout
+    logout,
+    signup
   };
 };

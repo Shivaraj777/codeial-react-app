@@ -74,7 +74,21 @@ export const login = (email, password) => {
       password
     }
   });
-}
+};
+
+//function to sign up user using signup API
+export const signup = (newUser) => {
+  console.log(newUser);
+  return customFetch(API_URLS.signup(), {
+    method: 'POST',
+    body: {
+      name: newUser.name,
+      email: newUser.email,
+      password: newUser.password,
+      confirm_password: newUser.confirmPassword
+    }
+  });
+};
 
 /* customConfig can contain:
   {

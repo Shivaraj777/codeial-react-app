@@ -1,4 +1,4 @@
-import {Home, Login} from '../pages';
+import {Home, Login, SignUp} from '../pages';
 import {Loader, Navbar} from './';
 import { Routes, Route } from 'react-router-dom';
 import { useAuth } from '../hooks';
@@ -17,6 +17,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path='/login' element={<Login />}/>
+        <Route excat path='/sign-up' element={<SignUp />} />
       </Routes>
     </div>
   );
