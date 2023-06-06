@@ -16,9 +16,9 @@ function Navbar() {
       </div>
       <div className={styles.rightNav}>
         { auth.user && <div className={styles.user}>    {/* if user is logged in show the user details in navbar */}
-          <a href='/'>
+          <Link to='/user/settings'>
             <img src={UserPicture} alt='user-dp' className={styles.userDp}/>
-          </a>
+          </Link>
           <span>{auth.user.name}</span>
         </div> }
         <div className={styles.navLinks}>
