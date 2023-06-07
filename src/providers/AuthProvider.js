@@ -6,7 +6,9 @@ const initialState = {
     user: null,
     login: () => {},
     logout: () => {},
-    loading: true
+    loading: true, 
+    signup: () => {},
+    updateUser: () => {}
 }
 
 //creating the AuthContext

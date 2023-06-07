@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import styles from '../styles/settings.module.css';
 import UserPicture from '../images/man.png';
 import { useAuth } from '../hooks';
+import {useToasts} from 'react-toast-notifications';
 
 function Settings() {
   //set the state
@@ -11,6 +12,55 @@ function Settings() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [savingForm, setSavingForm] = useState(false);
+  const {addToast} = useToasts();
+
+  //function to clear the form
+  const clearForm = () => {
+    setPassword('');
+    setConfirmPassword('');
+  };
+
+  //function to update the user data after saving
+  const updateProfile = async () => {
+    setSavingForm(true);
+
+    let error = false;
+    if(!name || !password || !confirmPassword){
+      addToast('Please fill all the fields!', {
+        appearance: 'error'
+      });
+      error = true;
+    }
+
+    if(password !== confirmPassword){
+      addToast('Passwords does not match!', {
+        appearance: 'error'
+      });
+      error = true;
+    }
+
+    if(error){
+      clearForm();
+      return setSavingForm(false);
+    }
+
+    //call the function to make API call
+    const response = await auth.updateUser(auth.user._id, name, password, confirmPassword);
+
+    if(response.success){
+      setEditMode(false);
+      setSavingForm(false);
+      clearForm();
+      return addToast('User profile updated successfully', {
+        appearance: 'success'
+      });
+    }else{
+      addToast(response.message, {
+        appearance: 'error'
+      });
+    }
+    setSavingForm(false);
+  };
 
   return (
     <div className={styles.settings}>
@@ -42,13 +92,13 @@ function Settings() {
       <div className={styles.btnGrp}>
         {editMode ? (
         <>
-          <button class={`button ${styles.saveBtn}`}>
+          <button className={`button ${styles.saveBtn}`} disabled={savingForm} onClick={updateProfile}>
             {savingForm ? 'Saving Profile...' : 'Save Profile'}
           </button>
-          <button class={`button ${styles.goBack}`} onClick={() => {setEditMode(false)}}>Discard</button>
+          <button className={`button ${styles.goBack}`} onClick={() => {setEditMode(false)}}>Discard</button>
         </>) : (
         <>
-          <button class={`button ${styles.editBtn}`} onClick={() => {setEditMode(true)}}>Edit Profile</button>
+          <button className={`button ${styles.editBtn}`} onClick={() => {setEditMode(true)}}>Edit Profile</button>
         </>)}
       </div>
     </div>

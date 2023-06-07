@@ -90,6 +90,19 @@ export const signup = (newUser) => {
   });
 };
 
+//function to fetch response for editing user profile
+export const editProfile = (userId, name, password, confirmPassword) => {
+  return customFetch(API_URLS.editUser(), {
+    method: 'POST',
+    body: {
+      id: userId,
+      name,
+      password,
+      confirm_password: confirmPassword
+    }
+  });
+}
+
 /* customConfig can contain:
   {
     method: post/get/patch/put

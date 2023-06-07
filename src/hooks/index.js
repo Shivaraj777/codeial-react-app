@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-import {login as userLogin} from '../api/';
+import {editProfile, login as userLogin} from '../api/';
 import {signup as userSignup} from '../api/';
 import { removeItemsFromLocalStorage, setItemsInLocalStorage, getItemsFromLocalStorage, LOCALSTORAGE_TOKEN_KEY } from "../utils";
 import jwt from 'jwt-decode';
@@ -14,6 +14,7 @@ export const useAuth = () => {
 export const useProvideAuth = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  // const [userName, setUserName] = useState(user.name);
 
   //decode the token and update the user state
   useEffect(() => {
@@ -26,6 +27,24 @@ export const useProvideAuth = () => {
 
     setLoading(false);
   },[]);
+
+  //function to edit user details
+  const updateUser = async (userId, name, password, confirmPassword) => {
+    const response = await editProfile(userId, name, password, confirmPassword);
+
+    if(response.success){
+      setUser(response.data.user);
+      setItemsInLocalStorage(LOCALSTORAGE_TOKEN_KEY, response.data.token ? response.data.token : null);
+      return {
+        success: true
+      }
+    }else{
+      return {
+        success: false,
+        message: response.message
+      };
+    }
+  };
 
   //function for login
   const login = async (email, password) => {
@@ -44,7 +63,7 @@ export const useProvideAuth = () => {
       return {
         success: false,
         message: response.message
-      }
+      };
     }
   };
 
@@ -76,6 +95,7 @@ export const useProvideAuth = () => {
     loading,
     login,
     logout,
-    signup
+    signup,
+    updateUser
   };
 };
