@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from '../styles/login.module.css';
 import { useToasts } from 'react-toast-notifications';
 import {useAuth} from '../hooks/';
+import {Navigate} from 'react-router-dom';
 
 function Login() {
   //custom hook to take form input and set state
@@ -46,7 +47,7 @@ function Login() {
     //if data is fetched successfully
     if(response.success){
       addToast('Logged in successfully!!', {
-        appearence: 'success'
+        appearance: 'success'
       });
     }else{
       addToast(response.message, {
@@ -56,6 +57,11 @@ function Login() {
 
     //enable the login button
     setLoggingIn(false);
+  }
+
+  //if user is logged in, login page not accessible(redirect to home)
+  if(auth.user){
+    return <Navigate replace to='/' />
   }
 
   return (

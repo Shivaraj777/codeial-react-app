@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import styles from '../styles/signIn.module.css';
 import { useAuth } from '../hooks';
 import { useToasts } from 'react-toast-notifications';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Navigate} from 'react-router-dom';
 
 function SignUp() {
   //custom hook to set the state of sign up form data
@@ -79,6 +79,11 @@ function SignUp() {
 
     setSigningup(false);
   };
+
+  //if user is logged in, login page not accessible(redirect to home)
+  if(auth.user){
+    return <Navigate replace to='/' />
+  }
 
   return (
     <form className={styles.signupForm} onSubmit={handleSubmit}>

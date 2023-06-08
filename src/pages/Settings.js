@@ -3,6 +3,7 @@ import styles from '../styles/settings.module.css';
 import UserPicture from '../images/man.png';
 import { useAuth } from '../hooks';
 import {useToasts} from 'react-toast-notifications';
+import {Navigate} from 'react-router-dom';
 
 function Settings() {
   //set the state
@@ -61,6 +62,11 @@ function Settings() {
     }
     setSavingForm(false);
   };
+
+  //if user is logged in, settings page not accessible(redirect to home)
+  // if(!auth.user){
+  //   return <Navigate replace to='/' />
+  // }
 
   return (
     <div className={styles.settings}>
