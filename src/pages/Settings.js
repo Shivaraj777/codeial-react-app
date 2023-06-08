@@ -3,7 +3,7 @@ import styles from '../styles/settings.module.css';
 import UserPicture from '../images/man.png';
 import { useAuth } from '../hooks';
 import {useToasts} from 'react-toast-notifications';
-import {Navigate} from 'react-router-dom';
+// import {Navigate} from 'react-router-dom';
 
 function Settings() {
   //set the state

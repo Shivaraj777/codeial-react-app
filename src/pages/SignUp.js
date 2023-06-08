@@ -80,7 +80,7 @@ function SignUp() {
     setSigningup(false);
   };
 
-  //if user is logged in, login page not accessible(redirect to home)
+  //if user is logged in, signup page not accessible(redirect to home)
   if(auth.user){
     return <Navigate replace to='/' />
   }
