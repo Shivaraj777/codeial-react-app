@@ -6,6 +6,7 @@ import UserPicture from '../images/man.png';
 import Like from '../images/heart.png';
 import CommentImg from '../images/chat-bubble.png';
 import {Comment, Loader} from '../components/';
+import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 
 function Home() {
@@ -44,7 +45,7 @@ function Home() {
             <div className={styles.postAvatar}>
               <img src={UserPicture} alt="user-pic"/>
               <div>
-                <span className={styles.postAuthor}>{post.user.name}</span>
+                <Link to={`/user/${post.user._id}`} className={styles.postAuthor}>{post.user.name}</Link>
                 <span className={styles.postTime}>a minute ago</span>
               </div>
             </div>
