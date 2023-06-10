@@ -1,13 +1,16 @@
 import React from 'react'
 import styles from '../styles/settings.module.css';
 import UserPicture from '../images/man.png';
+import { useLocation } from 'react-router-dom';
 // import { useAuth } from '../hooks';
 // import {useToasts} from 'react-toast-notifications';
 // import {Navigate} from 'react-router-dom';
 
 function UserProfile() {
   //set the state
-  const user = {};
+  const location = useLocation(); //get the details passed as state in Link component and store in location
+  console.log(location);
+  const {user} = location.state ? location.state : {};
 
   return (
     <div className={styles.settings}>
