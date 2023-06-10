@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getUserProfile } from '../api';
 import {useToasts} from 'react-toast-notifications';
 import { Loader } from '../components';
-// import { useAuth } from '../hooks';
+import { useAuth } from '../hooks';
 // import {Navigate} from 'react-router-dom';
 // import { useLocation } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ function UserProfile() {
   const {userId} = useParams();   //get the params from url
   const {addToast} = useToasts();
   const navigate = useNavigate();   //used to navigate to the required page
-  // const auth = useAuth();
+  const auth = useAuth();
 
   //side Effect for fetching user data
   useEffect(() => {
@@ -38,6 +38,17 @@ function UserProfile() {
     getUserInfo();
     // setLoading(false);
   }, [userId, addToast, navigate]);
+
+  //check if the user is friend of logged-in user
+  const checkFriendShip = () => {
+    const friends = auth.user.friends;
+    const friendsId = friends.map((friend) => friend.to_user._id);
+    const index = friendsId.indexOf(userId);
+    console.log(index);
+
+    return (index === -1) ? false : true;
+  }
+  const isFriend = checkFriendShip();
 
   //const location = useLocation(); //get the details passed as state in Link component and store in location
   // console.log(location);
@@ -61,8 +72,10 @@ function UserProfile() {
         <div className={styles.fieldValue}>{user?.name}</div>  
       </div>
       <div className={styles.btnGrp}>
-        <button className={`button ${styles.saveBtn}`}>Add Friend</button>
-        <button className={`button ${styles.saveBtn}`}>Remove Friend</button>
+        {!isFriend ? 
+          <button className={`button ${styles.saveBtn}`}>Add Friend</button> : 
+          <button className={`button ${styles.saveBtn}`}>Remove Friend</button>
+        }
       </div>
     </div>
   )

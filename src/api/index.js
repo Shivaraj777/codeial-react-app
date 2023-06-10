@@ -110,6 +110,13 @@ export const getUserProfile = (userId) => {
   });
 }
 
+//function to fetch the friends of a user(uses token at BE to identify user)
+export const getUserFriends = () => {
+  return customFetch(API_URLS.friends(), {
+    method: 'GET'
+  });
+}
+
 /* customConfig can contain:
   {
     method: post/get/patch/put

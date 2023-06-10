@@ -25,7 +25,7 @@ function Login() {
   const [loggingIn, setLoggingIn] = useState(false);
   const {addToast} = useToasts();  //hook for setting up notifications
   const auth = useAuth(); //get the authentication state from useAuth hook
-  console.log(auth);
+  // console.log(auth);
 
   //function to submit login details from form
   const handleSubmit = async (e) => {

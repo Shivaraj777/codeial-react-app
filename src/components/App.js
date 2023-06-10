@@ -17,6 +17,7 @@ function PrivateRoute({children}) {  // children => Component(passed as props)
 
 function App() {
   const auth = useAuth();
+  console.log(auth);
 
   //if loader is set to true, the page keeps loading 
   if(auth.loading){

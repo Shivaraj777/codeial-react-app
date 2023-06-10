@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-import {editProfile, login as userLogin} from '../api/';
+import {editProfile, getUserFriends, login as userLogin} from '../api/';
 import {signup as userSignup} from '../api/';
 import { removeItemsFromLocalStorage, setItemsInLocalStorage, getItemsFromLocalStorage, LOCALSTORAGE_TOKEN_KEY } from "../utils";
 import jwt from 'jwt-decode';
@@ -13,19 +13,26 @@ export const useAuth = () => {
 // custom hook which will handle all the functionalities of authentication
 export const useProvideAuth = () => {
   const [user, setUser] = useState(null);
+  // const [userFriends, setUserFriends] = useState([]);
   const [loading, setLoading] = useState(true);
   // const [userName, setUserName] = useState(user.name);
 
-  //decode the token and update the user state
+  //decode the token and update the user state(page refresh scenario)
   useEffect(() => {
-    const userToken = getItemsFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
-    
-    if(userToken){
-      const user = jwt(userToken);
-      setUser(user);
+    const updateUser = async () => {
+      const userToken = getItemsFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+      let friends = [];
+
+      if(userToken){
+        const user = jwt(userToken);
+        friends = await fetchFriends();  //as user friends are not present in token, fetch friends and addit to user state
+        setUser({...user, friends});
+      }
+
+      setLoading(false);
     }
 
-    setLoading(false);
+    updateUser();
   },[]);
 
   //function to edit user details
@@ -48,16 +55,30 @@ export const useProvideAuth = () => {
     }
   };
 
+  //function to fetch current user friends(user should be logged in)
+  const fetchFriends = async () => {
+    const response = await getUserFriends();
+
+    let friends = [];
+    if(response.success){
+      friends = response.data.friends;
+    }
+
+    return friends;
+  }
+
   //function for login
   const login = async (email, password) => {
     //get the response from api
     const response = await userLogin(email, password);
 
     if(response.success){
-      //set the user if user exists
-      setUser(response.data.user);
+      const userData = response.data.user;
       //store the token in local storage
       setItemsInLocalStorage(LOCALSTORAGE_TOKEN_KEY, response.data.token ? response.data.token : null);
+      //fetch friends of user and add it to user state
+      let friends = await fetchFriends();
+      setUser({...userData, friends});
       return {
         success: true
       }
