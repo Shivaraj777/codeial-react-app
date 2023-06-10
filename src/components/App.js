@@ -38,7 +38,7 @@ function App() {
           </PrivateRoute>} />
         <Route  //using a private route
           exact 
-          path='/user/:userId' 
+          path='/users/:userId' 
           element={<PrivateRoute>
             <UserProfile />
           </PrivateRoute>} />

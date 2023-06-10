@@ -33,6 +33,7 @@ export const useProvideAuth = () => {
     const response = await editProfile(userId, name, password, confirmPassword);
 
     if(response.success){
+      console.log(response);
       setUser(response.data.user);
       //update the token in local storage as well
       setItemsInLocalStorage(LOCALSTORAGE_TOKEN_KEY, response.data.token ? response.data.token : null);

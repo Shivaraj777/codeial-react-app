@@ -103,6 +103,13 @@ export const editProfile = (userId, name, password, confirmPassword) => {
   });
 }
 
+//function to fetch user details
+export const getUserProfile = (userId) => {
+  return customFetch(API_URLS.userInfo(userId), {
+    method: 'GET'
+  });
+}
+
 /* customConfig can contain:
   {
     method: post/get/patch/put
