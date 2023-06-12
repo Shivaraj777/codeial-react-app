@@ -117,6 +117,20 @@ export const getUserFriends = () => {
   });
 }
 
+//function to add a friend
+export const addFriend = (userId) => {
+  return customFetch(API_URLS.createFriendship(userId), {
+    method: 'POST'
+  });
+}
+
+//function to remove a friend
+export const unFriend = (userId) => {
+  return customFetch(API_URLS.removeFriend(userId), {
+    method: 'POST'
+  });
+}
+
 /* customConfig can contain:
   {
     method: post/get/patch/put

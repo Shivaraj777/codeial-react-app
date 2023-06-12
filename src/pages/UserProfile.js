@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from '../styles/settings.module.css';
 import UserPicture from '../images/man.png';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getUserProfile } from '../api';
+import { addFriend, getUserProfile, unFriend } from '../api';
 import {useToasts} from 'react-toast-notifications';
 import { Loader } from '../components';
 import { useAuth } from '../hooks';
@@ -14,6 +14,7 @@ function UserProfile() {
   //set the state
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+  const [requestInProgress, setRequestInProgress] = useState(false);  //for enabling/disabling buttons
   const {userId} = useParams();   //get the params from url
   const {addToast} = useToasts();
   const navigate = useNavigate();   //used to navigate to the required page
@@ -44,11 +45,51 @@ function UserProfile() {
     const friends = auth.user.friends;
     const friendsId = friends.map((friend) => friend.to_user._id);
     const index = friendsId.indexOf(userId);
-    console.log(index);
+    // console.log(index);
 
     return (index === -1) ? false : true;
   }
   const isFriend = checkFriendShip();
+
+  //function to add a friend
+  const handleAddFriendClick = async () => {
+    setRequestInProgress(true);
+    const response = await addFriend(userId);
+
+    if(response.success){
+      const {friendship} = response.data;
+      auth.updateUserFriends(true, friendship);
+      addToast('Friend added successfully!', {
+        appearance: 'success'
+      });
+    }else{
+      addToast(response.message, {
+        appearance: 'error'
+      });
+    }
+
+    setRequestInProgress(false);
+  }
+
+  //function to remove a friend
+  const handleRemoveFriendClick = async () => {
+    setRequestInProgress(true);
+    const response = await unFriend(userId);
+
+    if(response.success){
+      const friendship = auth.user.friends.filter((friend) => friend.to_user._id === userId);
+      auth.updateUserFriends(false, friendship[0]);
+      addToast('Friend removed successfully!', {
+        appearance: 'success'
+      });
+    }else{
+      addToast(response.message, {
+        appearance: 'error'
+      });
+    }
+
+    setRequestInProgress(false);
+  }
 
   //const location = useLocation(); //get the details passed as state in Link component and store in location
   // console.log(location);
@@ -73,8 +114,12 @@ function UserProfile() {
       </div>
       <div className={styles.btnGrp}>
         {!isFriend ? 
-          <button className={`button ${styles.saveBtn}`}>Add Friend</button> : 
-          <button className={`button ${styles.saveBtn}`}>Remove Friend</button>
+          <button className={`button ${styles.saveBtn}`} onClick={handleAddFriendClick} disabled={requestInProgress}>
+            {requestInProgress ? 'Adding Friend...' : 'Add Friend'}
+          </button> : 
+          <button className={`button ${styles.saveBtn}`} onClick={handleRemoveFriendClick} disabled={requestInProgress}>
+            {requestInProgress ? 'Removing Friend...' : 'Remove Friend'}
+          </button>
         }
       </div>
     </div>
