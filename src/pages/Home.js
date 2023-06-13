@@ -5,7 +5,7 @@ import styles from '../styles/home.module.css';
 import UserPicture from '../images/man.png';
 import Like from '../images/heart.png';
 import CommentImg from '../images/chat-bubble.png';
-import {Comment, FriendsList, Loader} from '../components/';
+import {Comment, CreatePost, FriendsList, Loader} from '../components/';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks';
 // import PropTypes from 'prop-types';
@@ -40,6 +40,7 @@ function Home() {
   return (
     <div className={styles.home}>
       <div className={styles.postsList}>
+        {auth.user && <CreatePost />}
         {posts.map((post) => (
           // Post container
           <div className={styles.postWrapper} key={`post-${post._id}`}>
