@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import styles from '../styles/home.module.css';
 import { useToasts } from 'react-toast-notifications';
 import { addPost } from '../api';
+import { usePosts } from '../hooks';
 
 function CreatePost() {
   const [post, setPost] = useState('');
   const [addingPost, setAddingPost] = useState(false);
   const {addToast} = useToasts();
+  const posts = usePosts();
 
   const handleChange = (e) => {
     setPost(e.target.value);
@@ -25,6 +27,8 @@ function CreatePost() {
     const response = await addPost(post);
 
     if(response.success){
+      setPost(''); //clear the create-post input box
+      posts.addPostToState(response.data.post);  //update the global posts state with newly added post
       addToast('Post created successfully', {
         appearance: 'success'
       });
