@@ -131,6 +131,15 @@ export const unFriend = (userId) => {
   });
 }
 
+export const addPost = (postContent) => {
+  return customFetch(API_URLS.createPost(), {
+    method: 'POST',
+    body: {
+      content: postContent
+    }
+  });
+}
+
 /* customConfig can contain:
   {
     method: post/get/patch/put
