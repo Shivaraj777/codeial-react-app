@@ -1,39 +1,20 @@
 import React from 'react'
-import {getPosts} from '../api';
-import { useState, useEffect } from 'react';
 import styles from '../styles/home.module.css';
 import UserPicture from '../images/man.png';
 import Like from '../images/heart.png';
 import CommentImg from '../images/chat-bubble.png';
 import {Comment, CreatePost, FriendsList, Loader} from '../components/';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks';
+import { useAuth, usePosts } from '../hooks';
 // import PropTypes from 'prop-types';
 
 function Home() {
-   //define the state for posts and loader
-   const [posts, setPosts] = useState([]);
-   const [loader, setLoader] = useState(true);
+   //define the global auth and posts state
    const auth = useAuth();
-
-  //fetch the posts from api
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
-      console.log('Response: ', response);
-
-      //if post is fetched successfully
-      if(response.success){
-        setPosts(response.data.posts);
-      }
-      setLoader(false); //set Loader to false after fetching the posts
-    }
-
-    fetchPosts();
-  }, []);
+   const posts = usePosts();
 
   //if loader is set to true, the page keeps loading 
-  if(loader){
+  if(posts.loading){
     return <Loader />
   }
 
@@ -41,7 +22,7 @@ function Home() {
     <div className={styles.home}>
       <div className={styles.postsList}>
         {auth.user && <CreatePost />}
-        {posts.map((post) => (
+        {posts.data.map((post) => (
           // Post container
           <div className={styles.postWrapper} key={`post-${post._id}`}>
             <div className={styles.postHeader}>

@@ -1,9 +1,11 @@
 import { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../providers/AuthProvider";
-import {editProfile, getUserFriends, login as userLogin} from '../api/';
+import { AuthContext, PostsContext } from "../providers/";
+import {editProfile, getPosts, getUserFriends, login as userLogin} from '../api/';
 import {signup as userSignup} from '../api/';
 import { removeItemsFromLocalStorage, setItemsInLocalStorage, getItemsFromLocalStorage, LOCALSTORAGE_TOKEN_KEY } from "../utils";
 import jwt from 'jwt-decode';
+
+/* Global Authentication state */
 
 // custom hook which will use useContext hook and return the global state(reason to use this custom hook: so that we don't have to useContext hook in every component)
 export const useAuth = () => {
@@ -142,3 +144,37 @@ export const useProvideAuth = () => {
     updateUserFriends
   };
 };
+
+/* Global Posts state */
+
+// custom hook which will use useContext hook and return the global state
+export const usePosts = () => {
+  return useContext(PostsContext);   
+}
+
+//custom hook which will handle the functions of posts
+export const useProvidePosts = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  //fetch the posts from api(ComponentDidMount)
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await getPosts();
+      console.log('Response: ', response);
+
+      //if post is fetched successfully
+      if(response.success){
+        setPosts(response.data.posts);
+      }
+      setLoading(false); //set Loader to false after fetching the posts
+    }
+
+    fetchPosts();
+  }, []);
+
+  return {
+    data: posts,
+    loading
+  }
+}
