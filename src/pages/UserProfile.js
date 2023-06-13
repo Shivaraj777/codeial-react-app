@@ -113,13 +113,13 @@ function UserProfile() {
         <div className={styles.fieldValue}>{user?.name}</div>  
       </div>
       <div className={styles.btnGrp}>
-        {!isFriend ? 
+        {!(userId === auth.user._id) && (!isFriend ? 
           <button className={`button ${styles.saveBtn}`} onClick={handleAddFriendClick} disabled={requestInProgress}>
             {requestInProgress ? 'Adding Friend...' : 'Add Friend'}
           </button> : 
           <button className={`button ${styles.saveBtn}`} onClick={handleRemoveFriendClick} disabled={requestInProgress}>
             {requestInProgress ? 'Removing Friend...' : 'Remove Friend'}
-          </button>
+          </button>)
         }
       </div>
     </div>
