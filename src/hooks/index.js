@@ -173,13 +173,26 @@ export const useProvidePosts = () => {
     fetchPosts();
   }, []);
 
+  //add new post to posts state
   const addPostToState = (newPost) => {
     setPosts([newPost, ...posts]);
   };
 
+  //update the posts state by adding the new comment
+  const updatePostComments = (postId, newComment) => {
+    const updatedPosts = posts.map((post) => {
+      if(post._id === postId){
+        post.comments = [newComment, ...post.comments];
+      }
+      return post;
+    });
+    setPosts(updatedPosts);
+  }
+
   return {
     data: posts,
     loading,
-    addPostToState
+    addPostToState,
+    updatePostComments
   }
 }

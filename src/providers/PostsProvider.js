@@ -5,7 +5,8 @@ import {useProvidePosts} from '../hooks/';
 const initialState = {
     posts: [],
     loading: false,
-    addPostToState: () => {}
+    addPostToState: () => {},
+    updatePostComments: () => {}
 }
 
 //creating the PostsContext

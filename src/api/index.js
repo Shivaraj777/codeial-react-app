@@ -131,11 +131,23 @@ export const unFriend = (userId) => {
   });
 }
 
+//creating a post
 export const addPost = (postContent) => {
   return customFetch(API_URLS.createPost(), {
     method: 'POST',
     body: {
       content: postContent
+    }
+  });
+}
+
+//creating a comment
+export const addComment = (postId, commentContent) => {
+  return customFetch(API_URLS.comment(), {
+    method: 'POST',
+    body: {
+      post_id: postId,
+      content: commentContent
     }
   });
 }
